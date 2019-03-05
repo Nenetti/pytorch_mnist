@@ -5,10 +5,9 @@ import os.path
 
 
 def main():
-    current = os.path.dirname(os.path.abspath(__file__))
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--path', default=current, help="Save path of images of datasets")
+    parser.add_argument('--dataset', default=os.path.dirname(os.path.abspath(__file__)), help="Save path of images of datasets")
     args = parser.parse_args()
 
     print("\n Directory: {}\n".format(args.path))
