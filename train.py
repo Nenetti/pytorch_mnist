@@ -16,6 +16,8 @@ def main():
     parser.add_argument('--epoch', default=10, help='Save path of Trained model in local')
     parser.add_argument('--lr', default=0.01, help='Save path of Trained model in local')
     parser.add_argument('--device', default="cuda", help='Save path of Trained model in local')
+    parser.add_argument('--dataset', default=os.path.dirname(os.path.abspath(__file__)), help='Load path of image dataset in local')
+
     args = parser.parse_args()
 
     batch_size = args.batch
@@ -33,9 +35,9 @@ def main():
     print("Save Model: {}:".format(save_model))
     print()
 
-    train_dataset, test_dataset = dataset.get_mnist_dataset(os.environ["HOME"] + "/dataset")
-    #train_dataset = load_dataset(os.environ["HOME"] + "/dataset/MNIST/train")
-    #test_dataset = load_dataset(os.environ["HOME"] + "/dataset/MNIST/test")
+    #train_dataset, test_dataset = dataset.get_mnist_dataset(args.dataset)
+    train_dataset = dataset.load_dataset(args.dataset+"/MNIST/train")
+    test_dataset = dataset.load_dataset(args.dataset+"/MNIST/test")
 
     train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
