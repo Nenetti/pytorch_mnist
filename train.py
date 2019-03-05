@@ -11,7 +11,7 @@ import argparse
 from tqdm import tqdm
 from PIL import Image
 
-def get_mnist_dataset(path):
+def get_dataset(path):
     """Load dataset in local.
 
     Load train and test dataset in local.
@@ -105,7 +105,7 @@ def main():
     print("Save Model: {}:".format(save_model))
     print()
 
-    train_dataset, test_dataset = get_mnist_dataset(os.environ["HOME"] + "/dataset")
+    train_dataset, test_dataset = get_dataset(os.environ["HOME"] + "/dataset")
     #train_dataset = load_dataset(os.environ["HOME"] + "/dataset/MNIST/train")
     #test_dataset = load_dataset(os.environ["HOME"] + "/dataset/MNIST/test")
 

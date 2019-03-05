@@ -9,7 +9,7 @@ from tqdm import tqdm
 from PIL import Image
 
 
-def get_mnist_dataset(path):
+def get_dataset(path):
     """Load dataset in local.
 
     Load train and test dataset in local.
