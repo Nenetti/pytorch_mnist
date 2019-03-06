@@ -10,9 +10,9 @@ def main():
     parser.add_argument('--dataset', default=os.path.dirname(os.path.abspath(__file__)), help="Save path of images of datasets")
     args = parser.parse_args()
 
-    print("\n Directory: {}\n".format(args.path))
+    print("\n Directory: {}\n".format(args.dataset))
 
-    dataset.save_mnist_dataset(args.path)
+    dataset.save_mnist_dataset(args.dataset)
 
 
 if __name__ == '__main__':
