@@ -5,13 +5,16 @@ from model import MnistModel
 import torch.utils.data
 import argparse
 import dataset
+from PIL import Image
+from torchvision import transforms, utils
+import matplotlib.pyplot as plt
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--load_model', default="trained_model.pt", help="Load path of Trained model in local")
     parser.add_argument('--device', default="cuda", help='Save path of Trained model in local')
-    parser.add_argument('--dataset', default=os.path.dirname(os.path.abspath(__file__)), help='Load path of image dataset in local')
+    parser.add_argument('--file', default=os.path.dirname(os.path.abspath(__file__)), help='Load path of image dataset in local')
     args = parser.parse_args()
 
     device = torch.device("cuda" if (args.device == "cuda" and torch.cuda.is_available()) else "cpu")
@@ -31,30 +34,18 @@ def main():
 
     model.set_device(device)
 
-    test_dataset = dataset.load_dataset(args.dataset+"/MNIST/test")
-    # hoge, test_dataset = get_dataset(os.environ["HOME"] + "/dataset")
-    test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=100, shuffle=True)
-    model.set_test_loader(test_loader)
-    model.run_test()
+    img = Image.open(args.file).convert("L")
+    data = torch.stack([transforms.ToTensor()(img)])
 
-    '''
-    correct = 0
-    accuracy = tqdm(total=len(test_dataset), desc="Accuracy", ascii=True)
-    for i, data in enumerate(tqdm(test_dataset, desc="Test", ascii=True)):
-        image, label = data
-        # to convert 1 batch size
-        result = model.predict(image.reshape(1, 1, 28, 28))
-        result = result.argmax(dim=1, keepdim=True).reshape(-1).cpu().numpy()[0]
-        if not int(label) == result:
-            pass
-            # print("Correct = {}".format(label), " -> ", "Predict = {}".format(result))
-            # plt.imshow(image.reshape(28, 28), cmap="gray")
-            # plt.show()
-        else:
-            correct = correct+1
-            accuracy.update()
-    #print("Result: {}/{}".format(correct, len(test_dataset)))
-    '''
+    result = model.predict(data)
+    result = result.argmax(dim=1, keepdim=True).reshape(-1).cpu().numpy()[0]
+
+    print("Result: {}".format(result))
+
+    plt.title(result)
+    plt.imshow(img)
+    plt.show()
+
 
 if __name__ == '__main__':
     main()
