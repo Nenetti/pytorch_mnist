@@ -1,0 +1,4 @@
+MNIST/
+__pycache__/
+.idea/
+trained_model.pt
