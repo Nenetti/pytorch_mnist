@@ -3,7 +3,7 @@ from torchvision import datasets, transforms
 import os
 from tqdm import tqdm
 from PIL import Image
-from torchvision import transforms
+from torchvision import transforms, utils
 
 
 def get_mnist_dataset(path):
@@ -76,15 +76,13 @@ def load_dataset(path):
 def save_mnist_dataset(dataset_path):
     def save(dataset, path):
         print(" Directory: {}".format(path))
-        transformer = transforms.ToPILImage("L")
         labels = {}
         for array, label in tqdm(dataset, desc=" Sequence ", ascii=True):
-            image = transformer(array)
             index = labels.get(label) if labels.get(label) is not None else 0
             file = path + "/" + str(label) + "/" + "{}.png".format(index)
             if not os.path.exists(os.path.dirname(file)):
                 os.makedirs(os.path.dirname(file))
-            image.save(file)
+            utils.save_image(array, file)
             labels[label] = index + 1
 
     train_dataset, test_dataset = get_mnist_dataset(dataset_path)
